@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+// import { BigInt } from "@graphprotocol/graph-ts"
 import { RankClaimed } from "../generated/MCTXENBatchMint/MCTXENBatchMint"
 import { RankClaimedEntity } from "../generated/schema"
 
