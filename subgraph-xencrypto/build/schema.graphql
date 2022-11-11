@@ -1,7 +1,0 @@
-type RankClaimedEntity @entity {
-  id: ID!
-  user_address: Bytes! # address
-  # user_address: String
-  mint_term: BigInt!
-  mint_rank: BigInt!
-}
