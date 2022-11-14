@@ -1,3 +1,6 @@
 [submodule "graph-node"]
 	path = graph-node
 	url = https://github.com/graphprotocol/graph-node/
+[submodule "XENSubgraph"]
+	path = XENSubgraph
+	url = git@github.com:shlyn/XENSubgraph.git
