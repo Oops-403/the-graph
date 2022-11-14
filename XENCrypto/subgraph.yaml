@@ -9,7 +9,7 @@ dataSources:
       address: "0x06450dee7fd2fb8e39061434babcfc05599a6fb8"
       abi: XENCrypto
       # startBlock: 15704871
-      startBlock: 15946645
+      startBlock: 15966859
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

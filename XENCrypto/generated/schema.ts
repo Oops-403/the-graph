@@ -11,6 +11,123 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class ReceiptEntity extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save ReceiptEntity entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type ReceiptEntity must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("ReceiptEntity", id.toString(), this);
+    }
+  }
+
+  static load(id: string): ReceiptEntity | null {
+    return changetype<ReceiptEntity | null>(store.get("ReceiptEntity", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockHash(): Bytes | null {
+    let value = this.get("blockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set blockHash(value: Bytes | null) {
+    if (!value) {
+      this.unset("blockHash");
+    } else {
+      this.set("blockHash", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get blockNumber(): BigInt | null {
+    let value = this.get("blockNumber");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockNumber(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockNumber");
+    } else {
+      this.set("blockNumber", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get contractAddress(): Bytes | null {
+    let value = this.get("contractAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set contractAddress(value: Bytes | null) {
+    if (!value) {
+      this.unset("contractAddress");
+    } else {
+      this.set("contractAddress", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get cumulativeGasUsed(): BigInt | null {
+    let value = this.get("cumulativeGasUsed");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set cumulativeGasUsed(value: BigInt | null) {
+    if (!value) {
+      this.unset("cumulativeGasUsed");
+    } else {
+      this.set("cumulativeGasUsed", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get gasUsed(): BigInt | null {
+    let value = this.get("gasUsed");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set gasUsed(value: BigInt | null) {
+    if (!value) {
+      this.unset("gasUsed");
+    } else {
+      this.set("gasUsed", Value.fromBigInt(<BigInt>value));
+    }
+  }
+}
+
 export class RankClaimedEntity extends Entity {
   constructor(id: string) {
     super();
@@ -44,42 +161,8 @@ export class RankClaimedEntity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get logIndex(): BigInt | null {
-    let value = this.get("logIndex");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set logIndex(value: BigInt | null) {
-    if (!value) {
-      this.unset("logIndex");
-    } else {
-      this.set("logIndex", Value.fromBigInt(<BigInt>value));
-    }
-  }
-
-  get transactionLogIndex(): BigInt | null {
-    let value = this.get("transactionLogIndex");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set transactionLogIndex(value: BigInt | null) {
-    if (!value) {
-      this.unset("transactionLogIndex");
-    } else {
-      this.set("transactionLogIndex", Value.fromBigInt(<BigInt>value));
-    }
-  }
-
-  get transaction_hash(): Bytes | null {
-    let value = this.get("transaction_hash");
+  get transactionHash(): Bytes | null {
+    let value = this.get("transactionHash");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -87,67 +170,16 @@ export class RankClaimedEntity extends Entity {
     }
   }
 
-  set transaction_hash(value: Bytes | null) {
+  set transactionHash(value: Bytes | null) {
     if (!value) {
-      this.unset("transaction_hash");
+      this.unset("transactionHash");
     } else {
-      this.set("transaction_hash", Value.fromBytes(<Bytes>value));
+      this.set("transactionHash", Value.fromBytes(<Bytes>value));
     }
   }
 
-  get user_address(): Bytes | null {
-    let value = this.get("user_address");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set user_address(value: Bytes | null) {
-    if (!value) {
-      this.unset("user_address");
-    } else {
-      this.set("user_address", Value.fromBytes(<Bytes>value));
-    }
-  }
-
-  get contract_address(): Bytes | null {
-    let value = this.get("contract_address");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set contract_address(value: Bytes | null) {
-    if (!value) {
-      this.unset("contract_address");
-    } else {
-      this.set("contract_address", Value.fromBytes(<Bytes>value));
-    }
-  }
-
-  get mint_address(): Bytes | null {
-    let value = this.get("mint_address");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set mint_address(value: Bytes | null) {
-    if (!value) {
-      this.unset("mint_address");
-    } else {
-      this.set("mint_address", Value.fromBytes(<Bytes>value));
-    }
-  }
-
-  get mint_term(): BigInt | null {
-    let value = this.get("mint_term");
+  get transactionFee(): BigInt | null {
+    let value = this.get("transactionFee");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -155,16 +187,59 @@ export class RankClaimedEntity extends Entity {
     }
   }
 
-  set mint_term(value: BigInt | null) {
+  set transactionFee(value: BigInt | null) {
     if (!value) {
-      this.unset("mint_term");
+      this.unset("transactionFee");
     } else {
-      this.set("mint_term", Value.fromBigInt(<BigInt>value));
+      this.set("transactionFee", Value.fromBigInt(<BigInt>value));
     }
   }
 
-  get mint_rank(): BigInt | null {
-    let value = this.get("mint_rank");
+  get userAddress(): Bytes | null {
+    let value = this.get("userAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set userAddress(value: Bytes | null) {
+    if (!value) {
+      this.unset("userAddress");
+    } else {
+      this.set("userAddress", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get platformAddress(): Bytes | null {
+    let value = this.get("platformAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set platformAddress(value: Bytes | null) {
+    if (!value) {
+      this.unset("platformAddress");
+    } else {
+      this.set("platformAddress", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get mintAddress(): Array<string> {
+    let value = this.get("mintAddress");
+    return value!.toStringArray();
+  }
+
+  set mintAddress(value: Array<string>) {
+    this.set("mintAddress", Value.fromStringArray(value));
+  }
+
+  get mintTerm(): BigInt | null {
+    let value = this.get("mintTerm");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -172,11 +247,28 @@ export class RankClaimedEntity extends Entity {
     }
   }
 
-  set mint_rank(value: BigInt | null) {
+  set mintTerm(value: BigInt | null) {
     if (!value) {
-      this.unset("mint_rank");
+      this.unset("mintTerm");
     } else {
-      this.set("mint_rank", Value.fromBigInt(<BigInt>value));
+      this.set("mintTerm", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get mintStartRank(): BigInt | null {
+    let value = this.get("mintStartRank");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set mintStartRank(value: BigInt | null) {
+    if (!value) {
+      this.unset("mintStartRank");
+    } else {
+      this.set("mintStartRank", Value.fromBigInt(<BigInt>value));
     }
   }
 }

@@ -1,54 +1,60 @@
-import { BigInt, ethereum } from "@graphprotocol/graph-ts"
+// import { crypto, ByteArray, ethereum, Bytes, BigInt } from "@graphprotocol/graph-ts"
 import {
   XENCrypto,
-  Approval,
-  MintClaimed,
+  // Approval,
+  // MintClaimed,
   RankClaimed,
-  Staked,
-  Transfer,
-  Withdrawn
+  // Staked,
+  // Transfer,
+  // Withdrawn
 } from "../generated/XENCrypto/XENCrypto"
 import { RankClaimedEntity } from "../generated/schema"
-
-export function handleApproval(event: Approval): void {}
-
-export function handleMintClaimed(event: MintClaimed): void {}
+import { ethereum, log } from "@graphprotocol/graph-ts"
 
 export function handleRankClaimed(event: RankClaimed): void {
-  // let contract = Contract.bind(event.address)
   // let contract = XENCrypto.bind(event.address)
-  // let entity = RankClaimedEntity.load(event.transaction.from.toHex())
 
-  // if (!entity) {
-  //   entity = new RankClaimedEntity(event.transaction.from.toHex())
+  let id = event.transaction.hash.toHex()
+  let entity = RankClaimedEntity.load(id)
+
+  if (!entity) {
+    entity = new RankClaimedEntity(id)
+    // entity.logIndex = event.logIndex
+    // entity.transactionLogIndex = event.transactionLogIndex
+    entity.transactionHash = event.transaction.hash
+    // entity.transaction_fee = 
+
+    entity.userAddress = event.transaction.from
+    entity.platformAddress = event.transaction.to
+
+    entity.mintAddress = [event.params.user.toHex()]
+    entity.mintTerm = event.params.term
+    entity.mintStartRank = event.params.rank
+
+  } else {
+    let arr = entity.mintAddress
+    arr.push(event.params.user.toHex())
+    entity.mintAddress = arr
+  }
+
+  // let mintinfo = contract.userMints(event.params.user)
+  // if(mintinfo) {
+  //   entity.isClaimed = true
+  // } else {
+  //   entity.isClaimed = false
   // }
-  let entity = new RankClaimedEntity(event.transaction.from.toHex())
 
-  entity.logIndex = event.logIndex
-  entity.transactionLogIndex = event.transactionLogIndex
-
-  entity.transaction_hash = event.transaction.hash
-  entity.user_address = event.transaction.from
-  entity.contract_address = event.transaction.to
-
-  // if (event.receipt) {
-    // entity.transaction_fee =  BigInt.fromU32(event.)
-    // if (event.receipt.logs) {
-    //   for (let i = 0; i < event.receipt.logs.length; i++) {
-    //   }
-    // }
-  // }
-
-  entity.mint_address = event.params.user
-
-  entity.mint_rank = event.params.rank
-  entity.mint_term = event.params.term
-
+  // let receipt = event.receipt as ethereum.TransactionReceipt
+  // log.info("info logo receipt: ", [receipt.gasUsed.toString()])
   entity.save()
 }
 
-export function handleStaked(event: Staked): void {}
+// export function handleApproval(event: Approval): void { }
 
-export function handleTransfer(event: Transfer): void {}
+// export function handleMintClaimed(event: MintClaimed): void { }
 
-export function handleWithdrawn(event: Withdrawn): void {}
+// export function handleStaked(event: Staked): void { }
+
+// export function handleTransfer(event: Transfer): void { }
+
+// export function handleWithdrawn(event: Withdrawn): void { }
